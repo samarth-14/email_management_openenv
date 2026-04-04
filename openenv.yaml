@@ -1,0 +1,19 @@
+name: email-management-assistant
+version: 1.0.0
+description: AI agent manages email inbox with categorization, responses, and prioritization
+
+tasks:
+  - id: categorize_email
+    difficulty: easy
+    description: Categorize emails into spam, promotion, or important
+  
+  - id: draft_response
+    difficulty: medium
+    description: Draft appropriate responses to customer inquiries
+  
+  - id: handle_thread
+    difficulty: hard
+    description: Manage multi-email conversation threads with context tracking
+
+state_type: dict
+action_type: dict
