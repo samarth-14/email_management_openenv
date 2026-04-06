@@ -1,132 +1,77 @@
-\# Email Management Assistant - OpenEnv Environment
+---
+title: Email Management OpenEnv
+emoji: 📧
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
 
+# 📧 Email Management Assistant — OpenEnv Environment
 
+A real-world OpenEnv environment where AI agents practice email management tasks across three difficulty levels.
 
-A real-world OpenEnv environment for AI agents to practice email management tasks.
+## 🌐 Live API
+Base URL: `https://samm14-email-management-openenv.hf.space`
 
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Health check |
+| `/reset` | POST | Reset environment with new task |
+| `/step` | POST | Execute action, get reward |
+| `/state` | GET | Get current state |
 
+## 🎯 Tasks
 
-\## 🎯 Overview
+| Difficulty | Task | Reward Logic |
+|------------|------|--------------|
+| Easy | Categorize email (spam/promotion/important) | Exact match = 1.0, partial = 0.3 |
+| Medium | Draft professional response | Partial credit for politeness + content |
+| Hard | Handle multi-email thread with context | Context awareness + solution quality |
 
+## 🚀 Quick Start
 
-
-This environment simulates an email inbox where agents must:
-
-\- \*\*Easy Task\*\*: Categorize emails (spam/promotion/important)
-
-\- \*\*Medium Task\*\*: Draft professional responses
-
-\- \*\*Hard Task\*\*: Handle multi-email conversation threads with context
-
-
-
-\## 🏗️ Environment Structure
-
-
-
-\- `environment.py` - Core OpenEnv implementation (reset, step, state)
-
-\- `models.py` - Pydantic typed models for Email, Action, State
-
-\- `tasks/` - Task definitions and grading functions
-
-\- `inference.py` - Agent inference script with structured logging
-
-\- `openenv.yaml` - Environment metadata
-
-
-
-\## 🎓 Task Difficulties
-
-
-
-\### Easy: Email Categorization
-
-Agent categorizes emails into spam, promotion, or important.
-
-\- \*\*Grading\*\*: Exact match = 1.0, partial credit for confusion between important/promotion = 0.3
-
-
-
-\### Medium: Response Drafting
-
-Agent writes appropriate responses to customer emails.
-
-\- \*\*Grading\*\*: Partial credit system (politeness + content relevance + completeness)
-
-
-
-\### Hard: Thread Management
-
-Agent manages multi-email conversations with context tracking.
-
-\- \*\*Grading\*\*: Context awareness + urgency recognition + solution proposal
-
-
-
-\## 🚀 Running the Environment
-
-
-
-\### Install dependencies:
-
+### Reset (start a task):
 ```bash
+curl -X POST https://samm14-email-management-openenv.hf.space/reset \
+  -H "Content-Type: application/json" \
+  -d '{"task_type": "easy"}'
+```
 
+### Step (take an action):
+```bash
+curl -X POST https://samm14-email-management-openenv.hf.space/step \
+  -H "Content-Type: application/json" \
+  -d '{"action": {"category": "spam"}}'
+```
+
+### Run inference locally:
+```bash
 pip install -r requirements.txt
-
-```
-
-
-
-\### Run inference:
-
-```bash
-
 python inference.py
-
 ```
 
+## 🏗️ Project Structure
+├── server.py          # FastAPI REST server
+├── environment.py     # Core OpenEnv (reset/step/state)
+├── models.py          # Pydantic typed models
+├── inference.py       # Inference script with structured logs
+├── openenv.yaml       # Environment metadata
+├── Dockerfile         # Docker deployment
+├── requirements.txt   # Dependencies
+└── tasks/
+├── easy.py        # Categorization task + grader
+├── medium.py      # Response drafting task + grader
+└── hard.py        # Thread management task + grader
+## ✅ Hackathon Requirements Met
+- ✅ Real-world environment (not a game)
+- ✅ Implements reset(), step(), state()
+- ✅ REST API with /reset and /step endpoints
+- ✅ Pydantic typed models
+- ✅ 3 difficulty levels (Easy/Medium/Hard)
+- ✅ Graders with partial rewards (0.0–1.0)
+- ✅ [START]/[STEP]/[END] structured logging
+- ✅ Dockerized on Hugging Face Spaces
+- ✅ Runs under 2 vCPU, 8GB RAM
 
-
-\### Environment variables:
-
-\- `API\_BASE\_URL` - AI model endpoint
-
-\- `MODEL\_NAME` - Model name to use
-
-\- `HF\_TOKEN` - Authentication token
-
-
-
-\## 📋 Requirements Met
-
-
-
-✅ Real-world environment (email management)  
-
-✅ Implements reset(), step(), state()  
-
-✅ Has openenv.yaml with task metadata  
-
-✅ Uses Pydantic typed models  
-
-✅ 3 tasks (easy/medium/hard)  
-
-✅ Grader functions with 0.0-1.0 rewards  
-
-✅ Partial progress signals in rewards  
-
-✅ inference.py with \[START]/\[STEP]/\[END] logs  
-
-✅ Dockerfile for deployment  
-
-✅ Runs under 2 vCPU, 8GB RAM constraints  
-
-
-
-\## 🏆 Hackathon Submission
-
-
-
-Created for the Meta PyTorch Hackathon - OpenEnv Track
-
+## 🏆 Meta PyTorch Hackathon — OpenEnv Track
